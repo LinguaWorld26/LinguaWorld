@@ -1,5 +1,40 @@
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
+import FrenchRecommendedLevel from "../../../components/FrenchRecommendedLevel";
+import ContinueFrench from "../../../components/ContinueFrench";
+
+const upcomingLevels = [
+  {
+    level: "A2",
+    title: "Everyday French",
+    description:
+      "Talk about routines, travel, food, family, shopping, and familiar situations.",
+  },
+  {
+    level: "B1",
+    title: "Confident Conversations",
+    description:
+      "Handle common situations, describe experiences, and explain your opinions.",
+  },
+  {
+    level: "B2",
+    title: "Independent French",
+    description:
+      "Follow authentic media, discuss complex topics, and communicate with more detail.",
+  },
+  {
+    level: "C1",
+    title: "Advanced Expression",
+    description:
+      "Use French flexibly for academic, professional, and social communication.",
+  },
+  {
+    level: "C2",
+    title: "Mastery",
+    description:
+      "Understand subtle meaning and express yourself naturally with precision.",
+  },
+];
 
 export default function FrenchPage() {
   return (
@@ -23,14 +58,22 @@ export default function FrenchPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <a className="primary-button">
-                Start learning
-              </a>
+  <Link href="/languages/french/a1" className="primary-button">
+    Start learning
+  </Link>
 
-              <button className="secondary-button">
-                Take a level test
-              </button>
-            </div>
+  <Link
+    href="/languages/french/level-test"
+    className="secondary-button"
+  >
+    Take a level test
+  </Link>
+</div>
+
+<FrenchRecommendedLevel />
+
+<ContinueFrench />
+
           </div>
 
           <div className="editorial-card min-h-[360px] bg-[linear-gradient(145deg,#ddebe7,#e7d8bd)] p-8">
@@ -58,87 +101,79 @@ export default function FrenchPage() {
         </div>
 
         <section id="levels" className="mt-24 scroll-mt-28">
-  <div className="max-w-3xl">
-    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--ocean)]">
-      Choose your level
-    </p>
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--ocean)]">
+              Choose your level
+            </p>
 
-    <h2 className="mt-4 text-4xl font-semibold md:text-5xl">
-      Follow a path that matches where you are.
-    </h2>
+            <h2 className="mt-4 text-4xl font-semibold md:text-5xl">
+              Follow a path that matches where you are.
+            </h2>
 
-    <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-      Begin with everyday foundations or continue toward confident,
-      independent French.
-    </p>
-  </div>
+            <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
+              Begin with everyday foundations and continue toward advanced,
+              independent French.
+            </p>
+          </div>
 
-  <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-    <article className="editorial-card p-7">
-      <p className="text-sm font-semibold text-[var(--ocean)]">
-        A1
-      </p>
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <article className="editorial-card p-7">
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-sm font-semibold text-[var(--ocean)]">
+                  A1
+                </p>
 
-      <h3 className="mt-3 text-3xl font-semibold">
-        Foundations
-      </h3>
+                <span className="rounded-full border border-[var(--ocean)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--ocean)]">
+                  Available
+                </span>
+              </div>
 
-      <p className="mt-4 leading-7 text-[var(--muted)]">
-        Greetings, introductions, pronunciation, numbers, and simple everyday
-        sentences.
-      </p>
+              <h3 className="mt-3 text-3xl font-semibold">Foundations</h3>
 
-      <Link
-  href="/languages/french/a1"
-  className="mt-7 inline-block font-semibold text-[var(--ocean)]"
->
-  Begin A1 →
-</Link>
-    </article>
+              <p className="mt-4 leading-7 text-[var(--muted)]">
+                Greetings, introductions, pronunciation, numbers, and simple
+                everyday sentences.
+              </p>
 
-    <article className="editorial-card p-7">
-      <p className="text-sm font-semibold text-[var(--ocean)]">
-        A2
-      </p>
+              <Link
+                href="/languages/french/a1"
+                className="mt-7 inline-block font-semibold text-[var(--ocean)]"
+              >
+                Begin A1 →
+              </Link>
+            </article>
 
-      <h3 className="mt-3 text-3xl font-semibold">
-        Everyday French
-      </h3>
+            {upcomingLevels.map((level) => (
+              <article
+                key={level.level}
+                className="editorial-card p-7 opacity-75"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-sm font-semibold text-[var(--ocean)]">
+                    {level.level}
+                  </p>
 
-      <p className="mt-4 leading-7 text-[var(--muted)]">
-        Talk about routines, travel, food, family, shopping, and familiar
-        situations.
-      </p>
+                  <span className="rounded-full border border-[var(--border)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
+                    Coming soon
+                  </span>
+                </div>
 
-      <button className="mt-7 font-semibold text-[var(--ocean)]">
-        Explore A2 →
-      </button>
-    </article>
+                <h3 className="mt-3 text-3xl font-semibold">{level.title}</h3>
 
-    <article className="editorial-card p-7">
-      <p className="text-sm font-semibold text-[var(--ocean)]">
-        B1–B2
-      </p>
+                <p className="mt-4 leading-7 text-[var(--muted)]">
+                  {level.description}
+                </p>
 
-      <h3 className="mt-3 text-3xl font-semibold">
-        Independent French
-      </h3>
+                <p className="mt-7 font-semibold text-[var(--muted)]">
+                  In development
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
 
-      <p className="mt-4 leading-7 text-[var(--muted)]">
-        Hold longer conversations, understand authentic media, and express
-        detailed opinions.
-      </p>
-
-      <button className="mt-7 font-semibold text-[var(--ocean)]">
-        Continue learning →
-      </button>
-    </article>
-  </div>
-</section>
         <section className="mt-24">
-          <h2 className="text-4xl font-semibold">
-            What you can study
-          </h2>
+          <h2 className="text-4xl font-semibold">What you can study</h2>
 
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[

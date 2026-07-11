@@ -1,8 +1,12 @@
 import Link from "next/link";
 import Navbar from "../../../../components/Navbar";
+import A1Progress from "../../../../components/A1Progress";
+import A1Achievement from "../../../../components/A1Achievement";
+import LessonStatus from "../../../../components/LessonStatus";
 
 const lessons = [
   {
+    id: "greetings",
     number: "01",
     title: "Greetings and introductions",
     description:
@@ -10,6 +14,7 @@ const lessons = [
     href: "/languages/french/a1/greetings",
   },
   {
+    id: "pronunciation",
     number: "02",
     title: "French pronunciation basics",
     description:
@@ -17,6 +22,7 @@ const lessons = [
     href: "/languages/french/a1/pronunciation",
   },
   {
+    id: "numbers",
     number: "03",
     title: "Numbers and personal information",
     description:
@@ -24,6 +30,7 @@ const lessons = [
     href: "/languages/french/a1/numbers",
   },
   {
+    id: "questions",
     number: "04",
     title: "Everyday questions",
     description:
@@ -60,6 +67,10 @@ export default function FrenchA1Page() {
           </p>
         </div>
 
+        <A1Progress />
+
+<A1Achievement />
+
         <div className="mt-14 grid gap-5">
           {lessons.map((lesson) => (
             <article
@@ -78,12 +89,25 @@ export default function FrenchA1Page() {
                 </p>
               </div>
 
-              <Link href={lesson.href} className="secondary-button">
-                Open lesson
-              </Link>
+              <div className="flex items-center gap-3">
+  <LessonStatus lessonId={lesson.id} />
+
+  <Link href={lesson.href} className="secondary-button">
+    Open lesson
+  </Link>
+</div>
             </article>
           ))}
         </div>
+        
+        <div className="mt-12">
+  <Link
+    href="/languages/french/a1/checkpoint"
+    className="primary-button inline-block"
+  >
+    Take the A1 checkpoint
+  </Link>
+</div>
       </section>
     </main>
   );

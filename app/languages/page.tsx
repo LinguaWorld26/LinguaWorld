@@ -1,6 +1,39 @@
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 
+const upcomingLanguages = [
+  {
+    name: "Spanish",
+    family: "Romance language",
+    gradient: "bg-[linear-gradient(135deg,#b84a3a,#f1c7a5)]",
+  },
+  {
+    name: "Italian",
+    family: "Romance language",
+    gradient: "bg-[linear-gradient(135deg,#2f6f4e,#e8efe7)]",
+  },
+  {
+    name: "Japanese",
+    family: "Japonic language",
+    gradient: "bg-[linear-gradient(135deg,#9b3f4a,#f5e6e7)]",
+  },
+  {
+    name: "Arabic",
+    family: "Semitic language",
+    gradient: "bg-[linear-gradient(135deg,#8a6834,#efe2c4)]",
+  },
+  {
+    name: "Russian",
+    family: "Slavic language",
+    gradient: "bg-[linear-gradient(135deg,#355b8a,#dde7f2)]",
+  },
+  {
+    name: "German",
+    family: "Germanic language",
+    gradient: "bg-[linear-gradient(135deg,#55504d,#e7dfd8)]",
+  },
+];
+
 export default function LanguagesPage() {
   return (
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
@@ -34,9 +67,7 @@ export default function LanguagesPage() {
                 Romance language
               </p>
 
-              <h2 className="mt-3 text-3xl font-semibold">
-                French
-              </h2>
+              <h2 className="mt-3 text-3xl font-semibold">French</h2>
 
               <p className="mt-4 leading-7 text-[var(--muted)]">
                 Build confidence in speaking, listening, grammar, vocabulary,
@@ -48,6 +79,40 @@ export default function LanguagesPage() {
               </p>
             </div>
           </Link>
+
+          {upcomingLanguages.map((language) => (
+            <article
+              key={language.name}
+              className="editorial-card overflow-hidden opacity-75"
+            >
+              <div className={`h-64 ${language.gradient}`} />
+
+              <div className="p-7">
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--ocean)]">
+                    {language.family}
+                  </p>
+
+                  <span className="rounded-full border border-[var(--border)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
+                    Coming soon
+                  </span>
+                </div>
+
+                <h2 className="mt-3 text-3xl font-semibold">
+                  {language.name}
+                </h2>
+
+                <p className="mt-4 leading-7 text-[var(--muted)]">
+                  Lessons, pronunciation, culture, and learning resources will
+                  be added here.
+                </p>
+
+                <p className="mt-6 font-semibold text-[var(--muted)]">
+                  In development
+                </p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </main>

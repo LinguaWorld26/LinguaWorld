@@ -35,7 +35,7 @@ const countryDetails = {
   },
   egypt: {
     image:
-      "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=1800&q=85",
+  "https://commons.wikimedia.org/wiki/Special:Redirect/file/All_Gizah_Pyramids.jpg?width=1200",
     description:
       "Egypt offers a vivid mix of ancient history, major cities, desert landscapes, and the living rhythms of Arabic-speaking culture.",
     bestTime:
@@ -44,6 +44,58 @@ const countryDetails = {
       "Entry requirements vary by nationality. Some travelers may qualify for an eVisa or visa on arrival.",
     culturalTip:
       "Warm greetings and respectful dress are appreciated, especially in religious and traditional settings.",
+  },
+
+  spain: {
+    image:
+      "https://images.unsplash.com/photo-1509840841025-9088ba78a826?auto=format&fit=crop&w=1800&q=85",
+    description:
+      "Spain combines lively cities, Mediterranean landscapes, regional traditions, and many opportunities to experience the Spanish language.",
+    bestTime:
+      "April–June and September–October for pleasant weather and fewer summer crowds.",
+    visa:
+      "Short-stay entry rules depend on nationality. Longer study, work, or residence plans may require a Spanish visa.",
+    culturalTip:
+      "Daily schedules often run later than in the United States, especially for meals and social activities.",
+  },
+
+  italy: {
+    image:
+      "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1800&q=85",
+    description:
+      "Italy brings together historic cities, celebrated food, artistic heritage, and regional cultures that make the Italian language come alive.",
+    bestTime:
+      "April–June and September–October for comfortable weather and lighter crowds.",
+    visa:
+      "Short-stay entry rules depend on nationality. Longer study, employment, or residence may require an Italian visa.",
+    culturalTip:
+      "Greetings and polite conversation are important, especially when entering small shops, cafés, and restaurants.",
+  },
+
+  germany: {
+    image:
+      "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1800&q=85",
+    description:
+      "Germany connects historic towns, modern cities, varied landscapes, and a rich cultural setting for learning German.",
+    bestTime:
+      "May–September for warmer weather, or late November–December for seasonal markets.",
+    visa:
+      "Short-stay entry rules depend on nationality. Longer study, work, or residence plans may require a German visa.",
+    culturalTip:
+      "Punctuality, planning, and respect for rules are generally valued in everyday situations.",
+  },
+
+  russia: {
+    image:
+      "https://images.unsplash.com/photo-1513326738677-b964603b136d?auto=format&fit=crop&w=1800&q=85",
+    description:
+      "Russia spans vast landscapes, historic cities, influential literature, and a deeply layered Russian-speaking culture.",
+    bestTime:
+      "May–September for milder weather, depending on the region and travel conditions.",
+    visa:
+      "Entry requirements vary significantly by nationality and travel purpose. Travelers should verify current rules before planning a trip.",
+    culturalTip:
+      "Polite greetings and respectful behavior are important, especially in formal or traditional settings.",
   },
 };
 

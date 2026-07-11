@@ -14,21 +14,21 @@ const lessons = [
     title: "French pronunciation basics",
     description:
       "Learn essential French sounds, silent letters, accents, and rhythm.",
-    href: "#",
+    href: "/languages/french/a1/pronunciation",
   },
   {
     number: "03",
     title: "Numbers and personal information",
     description:
       "Share your age, phone number, nationality, and other basic details.",
-    href: "#",
+    href: "/languages/french/a1/numbers",
   },
   {
     number: "04",
     title: "Everyday questions",
     description:
       "Ask simple questions using who, what, where, when, why, and how.",
-    href: "#",
+    href: "/languages/french/a1/questions",
   },
 ];
 

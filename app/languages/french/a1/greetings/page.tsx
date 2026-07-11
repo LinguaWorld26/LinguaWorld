@@ -1,5 +1,8 @@
 import Link from "next/link";
 import Navbar from "../../../../../components/Navbar";
+import PronunciationButton from "../../../../../components/PronunciationButton";
+import GreetingsQuiz from "../../../../../components/GreetingsQuiz";
+import LessonCompleteButton from "../../../../../components/LessonCompleteButton";
 
 const phrases = [
   {
@@ -33,6 +36,7 @@ export default function GreetingsLessonPage() {
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <Navbar />
 
+      <LessonCompleteButton lessonId="french-a1-greetings" />
       <section className="page-container section-spacing">
         <Link
           href="/languages/french/a1"
@@ -57,32 +61,28 @@ export default function GreetingsLessonPage() {
         </div>
 
         <section className="mt-16">
-          <h2 className="text-4xl font-semibold">
-            Essential phrases
-          </h2>
+          <h2 className="text-4xl font-semibold">Essential phrases</h2>
 
           <div className="mt-8 divide-y divide-[var(--border)] border-y border-[var(--border)]">
             {phrases.map((phrase) => (
               <div
                 key={phrase.french}
-                className="grid gap-3 py-6 md:grid-cols-2"
+                className="grid gap-4 py-6 md:grid-cols-[1fr_1fr_auto] md:items-center"
               >
-                <p className="text-2xl font-semibold">
-                  {phrase.french}
-                </p>
+                <p className="text-2xl font-semibold">{phrase.french}</p>
 
                 <p className="text-lg text-[var(--muted)]">
                   {phrase.english}
                 </p>
+
+                <PronunciationButton text={phrase.french} />
               </div>
             ))}
           </div>
         </section>
 
         <section className="mt-16">
-          <h2 className="text-4xl font-semibold">
-            Try it
-          </h2>
+          <h2 className="text-4xl font-semibold">Practice</h2>
 
           <div className="editorial-card mt-8 p-8">
             <p className="text-lg leading-8">
@@ -93,6 +93,8 @@ export default function GreetingsLessonPage() {
               Bonjour, je m’appelle ________. Enchanté(e).
             </p>
           </div>
+
+          <GreetingsQuiz />
         </section>
       </section>
     </main>

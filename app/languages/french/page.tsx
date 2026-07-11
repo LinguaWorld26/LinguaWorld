@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 
 export default function FrenchPage() {
@@ -87,9 +88,12 @@ export default function FrenchPage() {
         sentences.
       </p>
 
-      <button className="mt-7 font-semibold text-[var(--ocean)]">
-        Begin A1 →
-      </button>
+      <Link
+  href="/languages/french/a1"
+  className="mt-7 inline-block font-semibold text-[var(--ocean)]"
+>
+  Begin A1 →
+</Link>
     </article>
 
     <article className="editorial-card p-7">

@@ -1,4 +1,7 @@
+import Link from "next/link";
 import Navbar from "../components/Navbar";
+import HomeSearch from "../components/HomeSearch";
+import DailyLanguageChallenge from "../components/DailyLanguageChallenge";
 import CountryCard from "../components/CountryCard";
 import GlobeComponent from "../components/Globe";
 import { countries } from "../data/countries";
@@ -25,21 +28,23 @@ export default function Home() {
         </p>
 
         <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <button className="rounded-full bg-sky-900 px-8 py-4 text-lg text-white transition hover:bg-sky-800">
-            Explore Languages
-          </button>
+  <Link
+    href="/languages"
+    className="rounded-full bg-sky-900 px-8 py-4 text-lg text-white transition hover:bg-sky-800"
+  >
+    Explore Languages
+  </Link>
 
-          <button className="rounded-full border border-slate-300 bg-white px-8 py-4 text-lg transition hover:bg-slate-100">
-            Browse Countries
-          </button>
-        </div>
+  <Link
+    href="/countries"
+    className="rounded-full border border-slate-300 bg-white px-8 py-4 text-lg transition hover:bg-slate-100"
+  >
+    Browse Countries
+  </Link>
+</div>
 
         <div className="mt-12 w-full max-w-3xl">
-          <input
-            type="text"
-            placeholder="Search countries, languages, or cities..."
-            className="w-full rounded-full border border-slate-300 bg-white px-6 py-5 text-lg shadow-md outline-none transition focus:border-sky-700 focus:ring-4 focus:ring-sky-100"
-          />
+         <HomeSearch />
         </div>
 
         <div className="mt-16 w-full max-w-6xl overflow-hidden rounded-[40px] border border-slate-200 bg-gradient-to-br from-sky-50 to-cyan-100 shadow-xl">
@@ -67,6 +72,11 @@ export default function Home() {
           </div>
         </section>
       </section>
+
+      <section className="mx-auto w-full max-w-6xl px-6 pb-20">
+  <DailyLanguageChallenge />
+</section>
+
     </main>
   );
 }

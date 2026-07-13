@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FavoriteButton from "./FavoriteButton";
 
 type CountryCardProps = {
   id: string;
@@ -38,6 +39,12 @@ export default function CountryCard({
               {country}
             </h3>
           </div>
+
+          <FavoriteButton
+           itemId={id}
+           itemType="country"
+           itemName={country}
+          />
 
           <p className="mt-3 text-lg text-white/90">
             {language}

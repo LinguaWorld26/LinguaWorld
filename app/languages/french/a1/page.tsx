@@ -102,6 +102,13 @@ export default function FrenchA1Page() {
         
         <div className="mt-12">
   <Link
+    href="/languages/french/alphabet"
+    className="secondary-button inline-block"
+    >
+      View alphabet and sounds
+    </Link>
+    
+    <Link  
     href="/languages/french/a1/checkpoint"
     className="primary-button inline-block"
   >

@@ -80,7 +80,14 @@ export default async function SharedA1Page({ params }: Props) {
           ))}
         </div>
 
-        <div className="mt-12">
+        <div className="mt-12 flex flex-wrap gap-4">
+  <Link
+    href={`/languages/${language}/alphabet`}
+    className="secondary-button inline-block"
+  >
+    View alphabet and sounds
+  </Link>
+
   <Link
     href={`/languages/${language}/a1/checkpoint`}
     className="primary-button inline-block"

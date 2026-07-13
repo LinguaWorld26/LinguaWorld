@@ -12,6 +12,7 @@ export default function Navbar() {
             <Link href="/">Home</Link>
             <Link href="/countries">Countries</Link>
             <Link href="/languages">Languages</Link>
+            <Link href="/favorites">Favorites</Link>
             <a href="#">Travel</a>
             <a href="#">Community</a>
           </div>

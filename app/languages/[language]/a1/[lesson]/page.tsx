@@ -24,6 +24,8 @@ const speechLanguages: Record<string, string> = {
 export default async function SharedA1LessonPage({ params }: Props) {
   const { language, lesson } = await params;
 
+  const isRightToLeft = language === "arabic";
+
   const contentKey = `${language}-${lesson}`;
   const content = a1LessonContent[contentKey];
 
@@ -70,11 +72,20 @@ export default async function SharedA1LessonPage({ params }: Props) {
                 key={phrase.target}
                 className="grid gap-4 py-6 md:grid-cols-[1fr_1fr_auto] md:items-center"
               >
-                <p className="text-2xl font-semibold">
-                  {phrase.target}
-                </p>
+                <p
+  dir={isRightToLeft ? "rtl" : "ltr"}
+  lang={language === "arabic" ? "ar" : undefined}
+  className={`text-xl font-semibold ${
+    isRightToLeft ? "text-right" : "text-left"
+  }`}
+>
+  {phrase.target}
+</p>
 
-                <p className="text-lg text-[var(--muted)]">
+                <p 
+                dir="ltr"
+                className="text-lg text-[var(--muted)]"
+                >
                   {phrase.english}
                 </p>
 
@@ -90,14 +101,24 @@ export default async function SharedA1LessonPage({ params }: Props) {
         <section className="mt-16">
           <h2 className="text-4xl font-semibold">Practice</h2>
 
-          <div className="editorial-card mt-8 p-8">
+          <div
+  className={`editorial-card p-6 ${
+    isRightToLeft ? "text-right" : "text-left"
+  }`}
+>
             <p className="text-lg leading-8">
               {content.practiceQuestion}
             </p>
 
-            <p className="mt-5 text-2xl font-semibold">
-              {content.practicePrompt}
-            </p>
+            <p
+  dir={isRightToLeft ? "rtl" : "ltr"}
+  lang={language === "arabic" ? "ar" : undefined}
+  className={`mt-3 text-lg font-semibold ${
+    isRightToLeft ? "text-right" : "text-left"
+  }`}
+>
+  {content.practicePrompt}
+</p>
           </div>
         </section>
 

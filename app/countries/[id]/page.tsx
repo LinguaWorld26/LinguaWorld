@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "../../../components/Navbar";
 import { countries } from "../../../data/countries";
@@ -186,28 +187,47 @@ export default async function CountryPage({ params }: Props) {
           </section>
 
           <section className="grid gap-6 py-12 md:grid-cols-[280px_1fr]">
-            <h2 className="text-2xl font-semibold">
-              Explore next
-            </h2>
+  <h2 className="text-2xl font-semibold">
+    Explore next
+  </h2>
 
-            <div className="flex flex-wrap gap-x-8 gap-y-4 text-lg">
-              <a className="underline underline-offset-4" href="#">
-                Popular cities
-              </a>
+  <div className="flex flex-wrap gap-x-8 gap-y-4 text-lg">
+    <Link
+      href={`/countries/${country.id}/cities`}
+      className="underline underline-offset-4"
+    >
+      Popular cities
+    </Link>
 
-              <a className="underline underline-offset-4" href="#">
-                Language resources
-              </a>
+    <Link
+      href={`/countries/${country.id}/phrasebook`}
+      className="font-semibold text-[var(--ocean)] underline underline-offset-4"
+    >
+      Travel phrasebook
+    </Link>
 
-              <a className="underline underline-offset-4" href="#">
-                Culture and etiquette
-              </a>
+    <Link
+      href="/countries/itinerary"
+      className="underline underline-offset-4"
+    >
+      Build an itinerary
+    </Link>
 
-              <a className="underline underline-offset-4" href="#">
-                Travel planning
-              </a>
-            </div>
-          </section>
+    <Link
+      href="/countries/packing"
+      className="underline underline-offset-4"
+    >
+      Packing assistant
+    </Link>
+
+    <Link
+      href="/countries/budget"
+      className="underline underline-offset-4"
+    >
+      Travel budget
+    </Link>
+  </div>
+</section>
         </div>
       </section>
     </main>

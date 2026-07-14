@@ -71,6 +71,15 @@ export default async function LanguageHomepagePage({
               >
                 Alphabet and sounds
               </Link>
+
+              {language === "spanish" && (
+               <Link
+                 href={`/languages/${language}/verbs`}
+                 className="secondary-button"
+               >
+                 Verb charts
+               </Link>
+             )}
             </div>
 
             <div className="mt-8 flex flex-wrap gap-4">

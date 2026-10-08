@@ -1,4 +1,5 @@
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import Link from "next/link";
 import CountrySpotlight from "../../components/CountrySpotlight";
 import CountryCard from "../../components/CountryCard";
@@ -85,7 +86,9 @@ export default function CountriesPage() {
             />
           ))}
         </div>
-      </section>
-    </main>
+        </section>
+
+        <Footer />
+</main>
   );
 }

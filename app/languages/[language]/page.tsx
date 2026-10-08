@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 import { languageHomepages } from "../../../data/languageHomepages";
 
 type Props = {
@@ -232,7 +233,9 @@ export default async function LanguageHomepagePage({
             ))}
           </div>
         </section>
-      </section>
-    </main>
+        </section>
+
+  <Footer />
+</main>
   );
 }

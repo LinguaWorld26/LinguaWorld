@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const upcomingLanguages = [
   {
@@ -168,6 +169,8 @@ export default function LanguagesPage() {
           )}
         </div>
       </section>
-    </main>
+
+      <Footer />
+</main>
   );
 }

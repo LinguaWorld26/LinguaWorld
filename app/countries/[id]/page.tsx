@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 import { countries } from "../../../data/countries";
 
 type Props = {
@@ -229,7 +230,9 @@ export default async function CountryPage({ params }: Props) {
   </div>
 </section>
         </div>
-      </section>
-    </main>
+        </section>
+
+  <Footer />
+</main>
   );
 }

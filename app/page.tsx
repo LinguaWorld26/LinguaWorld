@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import HomeSearch from "../components/HomeSearch";
 import DailyLanguageChallenge from "../components/DailyLanguageChallenge";
 import CountryCard from "../components/CountryCard";
@@ -74,9 +75,9 @@ export default function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-20">
-  <DailyLanguageChallenge />
-</section>
-
-    </main>
+      <DailyLanguageChallenge />
+    </section>
+    <Footer />
+  </main>
   );
 }

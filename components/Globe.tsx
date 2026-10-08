@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
+import type { GlobeMethods } from "react-globe.gl";
 import { useRouter } from "next/navigation";
 
 const Globe = dynamic(() => import("react-globe.gl"), {
@@ -143,7 +144,7 @@ function getCountryName(country: CountryFeature) {
 }
 
 export default function GlobeComponent() {
-  const globeRef = useRef<any>(null);
+  const globeRef = useRef<GlobeMethods | undefined>(undefined);
   const router = useRouter();
 
   const [countriesData, setCountriesData] = useState<CountryFeature[]>([]);

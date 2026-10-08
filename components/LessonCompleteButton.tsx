@@ -1,29 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 type LessonCompleteButtonProps = {
   lessonId: string;
 };
 
+function subscribeToCompletedLessons(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("completedLessonsChanged", callback);
+
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("completedLessonsChanged", callback);
+  };
+}
+
+function getCompletedLessons() {
+  return localStorage.getItem("completedLessons") || "[]";
+}
+
+function getServerCompletedLessons() {
+  return "[]";
+}
+
 export default function LessonCompleteButton({
   lessonId,
 }: LessonCompleteButtonProps) {
-  const [completed, setCompleted] = useState(false);
+  const completedLessonsSnapshot = useSyncExternalStore(
+    subscribeToCompletedLessons,
+    getCompletedLessons,
+    getServerCompletedLessons
+  );
 
-  useEffect(() => {
-    const savedLessons = JSON.parse(
-      localStorage.getItem("completedLessons") || "[]"
-    );
-
-    setCompleted(savedLessons.includes(lessonId));
-  }, [lessonId]);
+  const savedLessons: string[] = JSON.parse(completedLessonsSnapshot);
+  const completed = savedLessons.includes(lessonId);
 
   function toggleComplete() {
-    const savedLessons: string[] = JSON.parse(
-      localStorage.getItem("completedLessons") || "[]"
-    );
-
     const updatedLessons = completed
       ? savedLessons.filter((id) => id !== lessonId)
       : [...savedLessons, lessonId];
@@ -33,7 +46,7 @@ export default function LessonCompleteButton({
       JSON.stringify(updatedLessons)
     );
 
-    setCompleted(!completed);
+    window.dispatchEvent(new Event("completedLessonsChanged"));
   }
 
   return (

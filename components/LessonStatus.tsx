@@ -1,21 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 type LessonStatusProps = {
   lessonId: string;
 };
 
+function subscribeToCompletedLessons(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("completedLessonsChanged", callback);
+
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("completedLessonsChanged", callback);
+  };
+}
+
+function getCompletedLessons() {
+  return localStorage.getItem("completedLessons") || "[]";
+}
+
+function getServerCompletedLessons() {
+  return "[]";
+}
+
 export default function LessonStatus({ lessonId }: LessonStatusProps) {
-  const [completed, setCompleted] = useState(false);
+  const completedLessonsSnapshot = useSyncExternalStore(
+    subscribeToCompletedLessons,
+    getCompletedLessons,
+    getServerCompletedLessons
+  );
 
-  useEffect(() => {
-    const savedLessons: string[] = JSON.parse(
-      localStorage.getItem("completedLessons") || "[]"
-    );
-
-    setCompleted(savedLessons.includes(lessonId));
-  }, [lessonId]);
+  const savedLessons: string[] = JSON.parse(completedLessonsSnapshot);
+  const completed = savedLessons.includes(lessonId);
 
   if (!completed) {
     return null;

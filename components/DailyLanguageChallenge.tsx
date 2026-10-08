@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import PronunciationButton from "./PronunciationButton";
 
@@ -73,30 +73,49 @@ function getLocalDateKey() {
   return `${year}-${month}-${day}`;
 }
 
+const dayNumber = Math.floor(Date.now() / 86400000);
+const dailyChallenge = challenges[dayNumber % challenges.length];
+
+function subscribeToDailyChallenge(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("dailyLanguageChallengeChanged", callback);
+
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("dailyLanguageChallengeChanged", callback);
+  };
+}
+
+function getServerCompleted() {
+  return "incomplete";
+}
+
+function getServerCompletionCount() {
+  return "0";
+}
+
 export default function DailyLanguageChallenge() {
   const [showTranslation, setShowTranslation] = useState(false);
-  const [completed, setCompleted] = useState(false);
-  const [completionCount, setCompletionCount] = useState(0);
-
-  const challenge = useMemo(() => {
-    const dayNumber = Math.floor(Date.now() / 86400000);
-    return challenges[dayNumber % challenges.length];
-  }, []);
 
   const dateKey = useMemo(() => getLocalDateKey(), []);
   const completionKey = `daily-language-challenge-${dateKey}`;
 
-  useEffect(() => {
-    const savedCompletion =
-      window.localStorage.getItem(completionKey) === "complete";
+  const completed = useSyncExternalStore(
+    subscribeToDailyChallenge,
+    () => window.localStorage.getItem(completionKey) || "incomplete",
+    getServerCompleted
+  ) === "complete";
 
-    const savedCount = Number(
-      window.localStorage.getItem("daily-language-challenge-count") || "0"
-    );
+  const completionCount = Number(
+    useSyncExternalStore(
+      subscribeToDailyChallenge,
+      () =>
+        window.localStorage.getItem("daily-language-challenge-count") || "0",
+      getServerCompletionCount
+    )
+  );
 
-    setCompleted(savedCompletion);
-    setCompletionCount(savedCount);
-  }, [completionKey]);
+  const challenge = dailyChallenge;
 
   function completeChallenge() {
     if (completed) {
@@ -111,8 +130,7 @@ export default function DailyLanguageChallenge() {
       String(newCount)
     );
 
-    setCompleted(true);
-    setCompletionCount(newCount);
+    window.dispatchEvent(new Event("dailyLanguageChallengeChanged"));
   }
 
   const isArabic = challenge.languageId === "arabic";

@@ -1,14 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+function subscribeToRecommendedLevel(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("frenchRecommendedLevelChanged", callback);
+
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(
+      "frenchRecommendedLevelChanged",
+      callback
+    );
+  };
+}
+
+function getRecommendedLevel() {
+  return localStorage.getItem("frenchRecommendedLevel");
+}
+
+function getServerRecommendedLevel() {
+  return null;
+}
 
 export default function FrenchRecommendedLevel() {
-  const [level, setLevel] = useState<string | null>(null);
-
-  useEffect(() => {
-    const savedLevel = localStorage.getItem("frenchRecommendedLevel");
-    setLevel(savedLevel);
-  }, []);
+  const level = useSyncExternalStore(
+    subscribeToRecommendedLevel,
+    getRecommendedLevel,
+    getServerRecommendedLevel
+  );
 
   if (!level) {
     return null;

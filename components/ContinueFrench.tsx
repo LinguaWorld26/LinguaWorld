@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 const lessons = [
   {
@@ -26,25 +26,38 @@ const lessons = [
   },
 ];
 
+function subscribeToCompletedLessons(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("completedLessonsChanged", callback);
+
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("completedLessonsChanged", callback);
+  };
+}
+
+function getCompletedLessons() {
+  return localStorage.getItem("completedLessons") || "[]";
+}
+
+function getServerCompletedLessons() {
+  return "[]";
+}
+
 export default function ContinueFrench() {
-  const [nextLesson, setNextLesson] = useState(lessons[0]);
-  const [allComplete, setAllComplete] = useState(false);
+  const completedLessons = JSON.parse(
+    useSyncExternalStore(
+      subscribeToCompletedLessons,
+      getCompletedLessons,
+      getServerCompletedLessons
+    )
+  ) as string[];
 
-  useEffect(() => {
-    const completedLessons: string[] = JSON.parse(
-      localStorage.getItem("completedLessons") || "[]"
-    );
+  const nextLesson = lessons.find(
+    (lesson) => !completedLessons.includes(lesson.id)
+  );
 
-    const unfinishedLesson = lessons.find(
-      (lesson) => !completedLessons.includes(lesson.id)
-    );
-
-    if (unfinishedLesson) {
-      setNextLesson(unfinishedLesson);
-    } else {
-      setAllComplete(true);
-    }
-  }, []);
+  const allComplete = !nextLesson;
 
   if (allComplete) {
     return (

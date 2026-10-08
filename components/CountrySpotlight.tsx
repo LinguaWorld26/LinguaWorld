@@ -1,19 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { countrySpotlights } from "../data/countrySpotlight";
+
+const dayNumber = Math.floor(Date.now() / 86400000);
+
+const dailyCountry =
+  countrySpotlights[dayNumber % countrySpotlights.length];
 
 export default function CountrySpotlight() {
   const [showTip, setShowTip] = useState(false);
 
-  const country = useMemo(() => {
-    const dayNumber = Math.floor(Date.now() / 86400000);
-
-    return countrySpotlights[
-      dayNumber % countrySpotlights.length
-    ];
-  }, []);
+  const country = dailyCountry;
 
   return (
     <section className="editorial-card overflow-hidden p-7 md:p-10">

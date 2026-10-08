@@ -1,11 +1,65 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 import { travelChecklistItems } from "../../../data/travelChecklist";
 
 const STORAGE_KEY = "linguaworld-travel-readiness";
+
+const EMPTY_CHECKED_ITEMS: string[] = [];
+
+let cachedCheckedItems = EMPTY_CHECKED_ITEMS;
+let hasLoadedCheckedItems = false;
+
+function getCheckedItems() {
+  if (typeof window === "undefined") {
+    return EMPTY_CHECKED_ITEMS;
+  }
+
+  if (!hasLoadedCheckedItems) {
+    const savedItems = window.localStorage.getItem(STORAGE_KEY);
+
+    if (savedItems) {
+      try {
+        cachedCheckedItems = JSON.parse(savedItems);
+      } catch {
+        cachedCheckedItems = EMPTY_CHECKED_ITEMS;
+      }
+    }
+
+    hasLoadedCheckedItems = true;
+  }
+
+  return cachedCheckedItems;
+}
+
+function getServerCheckedItems() {
+  return EMPTY_CHECKED_ITEMS;
+}
+
+function subscribeToCheckedItems(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("linguaworld-travel-readiness", callback);
+
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("linguaworld-travel-readiness", callback);
+  };
+}
+
+function saveCheckedItems(items: string[]) {
+  cachedCheckedItems = items;
+
+  window.localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(items)
+  );
+
+  window.dispatchEvent(
+    new Event("linguaworld-travel-readiness")
+  );
+}
 
 const categories = [
   "Documents",
@@ -19,29 +73,11 @@ const categories = [
 ] as const;
 
 export default function TravelReadinessPage() {
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const savedItems = window.localStorage.getItem(STORAGE_KEY);
-
-    if (savedItems) {
-      setCheckedItems(JSON.parse(savedItems));
-    }
-
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (!loaded) {
-      return;
-    }
-
-    window.localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(checkedItems)
-    );
-  }, [checkedItems, loaded]);
+  const checkedItems = useSyncExternalStore(
+    subscribeToCheckedItems,
+    getCheckedItems,
+    getServerCheckedItems
+  );
 
   const completedCount = checkedItems.length;
   const totalCount = travelChecklistItems.length;
@@ -51,15 +87,15 @@ export default function TravelReadinessPage() {
   }, [completedCount, totalCount]);
 
   function toggleItem(itemId: string) {
-    setCheckedItems((current) =>
-      current.includes(itemId)
-        ? current.filter((id) => id !== itemId)
-        : [...current, itemId]
-    );
+    const nextItems = checkedItems.includes(itemId)
+      ? checkedItems.filter((id) => id !== itemId)
+      : [...checkedItems, itemId];
+
+    saveCheckedItems(nextItems);
   }
 
   function resetChecklist() {
-    setCheckedItems([]);
+    saveCheckedItems([]);
   }
 
   return (

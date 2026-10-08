@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 import FrenchRecommendedLevel from "../../../components/FrenchRecommendedLevel";
 import ContinueFrench from "../../../components/ContinueFrench";
 
@@ -195,7 +196,9 @@ export default function FrenchPage() {
             ))}
           </div>
         </section>
-      </section>
-    </main>
+        </section>
+
+  <Footer />
+</main>
   );
 }

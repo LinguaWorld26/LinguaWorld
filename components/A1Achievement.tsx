@@ -1,16 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+function subscribeToCheckpoint(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("frenchA1CheckpointChanged", callback);
+
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("frenchA1CheckpointChanged", callback);
+  };
+}
+
+function getCheckpointPassed() {
+  return localStorage.getItem("frenchA1CheckpointPassed") === "true";
+}
+
+function getServerCheckpointPassed() {
+  return false;
+}
 
 export default function A1Achievement() {
-  const [passed, setPassed] = useState(false);
-
-  useEffect(() => {
-    const checkpointPassed =
-      localStorage.getItem("frenchA1CheckpointPassed") === "true";
-
-    setPassed(checkpointPassed);
-  }, []);
+  const passed = useSyncExternalStore(
+    subscribeToCheckpoint,
+    getCheckpointPassed,
+    getServerCheckpointPassed
+  );
 
   if (!passed) {
     return null;

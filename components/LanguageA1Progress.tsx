@@ -1,29 +1,47 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 type LanguageA1ProgressProps = {
   languageId: string;
   lessonIds: string[];
 };
 
+function subscribeToCompletedLessons(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("completedLessonsChanged", callback);
+
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("completedLessonsChanged", callback);
+  };
+}
+
+function getCompletedLessons() {
+  return localStorage.getItem("completedLessons") || "[]";
+}
+
+function getServerCompletedLessons() {
+  return "[]";
+}
+
 export default function LanguageA1Progress({
   languageId,
   lessonIds,
 }: LanguageA1ProgressProps) {
-  const [completedCount, setCompletedCount] = useState(0);
+  const completedLessonsSnapshot = useSyncExternalStore(
+    subscribeToCompletedLessons,
+    getCompletedLessons,
+    getServerCompletedLessons
+  );
 
-  useEffect(() => {
-    const completedLessons: string[] = JSON.parse(
-      localStorage.getItem("completedLessons") || "[]"
-    );
+  const completedLessons: string[] = JSON.parse(
+    completedLessonsSnapshot
+  );
 
-    const completedForCourse = lessonIds.filter((lessonId) =>
-      completedLessons.includes(`${languageId}-a1-${lessonId}`)
-    );
-
-    setCompletedCount(completedForCourse.length);
-  }, [languageId, lessonIds]);
+  const completedCount = lessonIds.filter((lessonId) =>
+    completedLessons.includes(`${languageId}-a1-${lessonId}`)
+  ).length;
 
   const percentage =
     lessonIds.length === 0

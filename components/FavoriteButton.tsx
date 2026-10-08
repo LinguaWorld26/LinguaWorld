@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 type FavoriteButtonProps = {
   itemId: string;
@@ -16,37 +16,43 @@ type FavoriteItem = {
 
 const STORAGE_KEY = "linguaworld-favorites";
 
+function subscribeToFavorites(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("favorites-updated", callback);
+
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("favorites-updated", callback);
+  };
+}
+
+function getFavorites() {
+  return window.localStorage.getItem(STORAGE_KEY) || "[]";
+}
+
+function getServerFavorites() {
+  return "[]";
+}
+
 export default function FavoriteButton({
   itemId,
   itemType,
   itemName,
 }: FavoriteButtonProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const savedFavorites = useSyncExternalStore(
+    subscribeToFavorites,
+    getFavorites,
+    getServerFavorites
+  );
 
-  useEffect(() => {
-    const savedFavorites = window.localStorage.getItem(STORAGE_KEY);
+  const favorites: FavoriteItem[] = JSON.parse(savedFavorites);
 
-    if (!savedFavorites) {
-      return;
-    }
-
-    const favorites: FavoriteItem[] = JSON.parse(savedFavorites);
-
-    setIsFavorite(
-      favorites.some(
-        (favorite) =>
-          favorite.id === itemId && favorite.type === itemType
-      )
-    );
-  }, [itemId, itemType]);
+  const isFavorite = favorites.some(
+    (favorite) =>
+      favorite.id === itemId && favorite.type === itemType
+  );
 
   function toggleFavorite() {
-    const savedFavorites = window.localStorage.getItem(STORAGE_KEY);
-
-    const favorites: FavoriteItem[] = savedFavorites
-      ? JSON.parse(savedFavorites)
-      : [];
-
     const alreadySaved = favorites.some(
       (favorite) =>
         favorite.id === itemId && favorite.type === itemType
@@ -73,8 +79,6 @@ export default function FavoriteButton({
       STORAGE_KEY,
       JSON.stringify(updatedFavorites)
     );
-
-    setIsFavorite(!alreadySaved);
 
     window.dispatchEvent(new Event("favorites-updated"));
   }
